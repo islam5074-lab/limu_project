@@ -40,8 +40,8 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <a href="/">Home</a>
-        <a href="/courses">Courses</a>
-        <a href="/professors">Professors</a>
+        <a href="{{ route('admin.courses.index') }}">Courses</a>
+        <a href="{{ route('admin.professors.index') }}">Professors</a>
         <a href="{{ route('admin.students.index') }}">Students</a>
     </div>
 

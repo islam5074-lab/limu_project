@@ -17,7 +17,7 @@ class enrollmentController extends Controller
     public function index()
     {
         $enrollments = Enrollment::with(['professor','course','student'])->get();
-        return view('Admin.Enrollment.index', compact('enrollments'));
+        return view('Admin.enrollments.index', compact('enrollments'));
     }
 
     /**
@@ -28,7 +28,7 @@ class enrollmentController extends Controller
         $students=Student::all();
         $courses=Course::all();
         $professors=Professor::all();
-        return view('Admin.Enrollment.create',compact(['courses','professors','students']));
+        return view('Admin.enrollments.create',compact(['courses','professors','students']));
     }
 
     /**
@@ -45,8 +45,8 @@ class enrollmentController extends Controller
 
         Enrollment::create($input);
 
-        return redirect()->route('enrollment.index')
-                         ->with('success', 'Enrollment added successfully');
+        return redirect()->route('admin.enrollments.index')
+                 ->with('success', 'Enrollment added successfully');
     }
 
     /**
@@ -54,7 +54,7 @@ class enrollmentController extends Controller
      */
     public function show(Enrollment $enrollment)
     {
-       return view('Admin.Enrollment.details',compact('enrollment'));
+    return view('Admin.enrollments.details',compact('enrollment'));
     }
 
     /**
@@ -65,7 +65,7 @@ class enrollmentController extends Controller
         $students=Student::all();
         $courses=Course::all();
         $professors=Professor::all();
-        return view('Admin.Enrollment.edit',compact(['enrollment','courses','professors','students']));
+        return view('Admin.enrollments.edit',compact(['enrollment','courses','professors','students']));
     }
 
     /**
@@ -82,8 +82,8 @@ class enrollmentController extends Controller
 
         $enrollment->update($input);
 
-        return redirect()->route('enrollment.index')
-                         ->with('success', 'Enrollment updated successfully');
+        return redirect()->route('admin.enrollments.index')
+                 ->with('success', 'Enrollment updated successfully');
     }
 
     /**

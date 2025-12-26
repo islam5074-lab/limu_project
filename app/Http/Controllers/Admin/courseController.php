@@ -37,7 +37,7 @@ class courseController extends Controller
         ]);
 
         Course::create($input);
-        return redirect()->route('course.index')->with('success', 'Course is added successfully');
+        return redirect()->route('admin.courses.index')->with('success', 'Course is added successfully');
     }
 
     /**
@@ -68,7 +68,7 @@ class courseController extends Controller
         ]);
 
         $course->update($input);
-        return redirect()->route('course.index')->with('success', 'Course is updated successfully');
+        return redirect()->route('admin.courses.index')->with('success', 'Course is updated successfully');
     }
 
     /**
@@ -77,7 +77,7 @@ class courseController extends Controller
     public function destroy(Course $course)
     {
         $course->delete();
-        return redirect()->route('course.index')->with('success', 'Course is deleted successfully');
+        return redirect()->route('admin.courses.index')->with('success', 'Course is deleted successfully');
     }
 }
 
