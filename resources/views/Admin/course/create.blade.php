@@ -1,33 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h1>Create New Course</h1>
 
-    <form action="{{ route('courses.store') }}" method="POST">
-        @csrf
+<h1>Add New Course</h1>
 
-        <div class="mb-3">
-            <label>Course Title</label>
-            <x-form-input 
-                type="text" 
-                name="title" 
-                placeholder="Enter course title" 
-            />
-        </div>
+<form method="POST" action="/courses">
+    @csrf
 
-        <div class="mb-3">
-            <label>Course Code</label>
-            <x-form-input 
-                type="text" 
-                name="code" 
-                placeholder="CS101" 
-            />
-        </div>
+    <div style="margin-bottom:10px;">
+        <label>Course Name</label><br>
+        <input type="text" name="name" required>
+    </div>
 
-        <x-button type="submit">
-            Create Course
-        </x-button>
-    </form>
-</div>
+    <div style="margin-bottom:10px;">
+        <label>Course Symbol</label><br>
+        <input type="text" name="symbol" required>
+    </div>
+
+    <div style="margin-bottom:10px;">
+        <label>Course Unit</label><br>
+        <input type="number" name="unit" required>
+    </div>
+
+    <button type="submit">Save Course</button>
+</form>
+
+<br>
+
+<a href="/courses">⬅ Back to Courses</a>
+
 @endsection
