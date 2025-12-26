@@ -42,7 +42,7 @@
         <a href="/">Home</a>
         <a href="/courses">Courses</a>
         <a href="/professors">Professors</a>
-        <a href="/students">Students</a>
+        <a href="{{ route('admin.students.index') }}">Students</a>
     </div>
 
     <!-- Main Content -->

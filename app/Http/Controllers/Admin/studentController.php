@@ -3,107 +3,79 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use App\Services\StudentService;
+use App\DTO\StudentDTO;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class studentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected $studentService;
+
+    public function __construct(StudentService $studentService)
+    {
+        $this->studentService = $studentService;
+    }
+
     public function index()
     {
-        $students = Student::all();
-        return view('Admin.Student.index', compact('students'));
+        $students = $this->studentService->getAll();
+        return view('admin.students.index', compact('students'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('Admin.Student.create');
+        // Show the create form and a paginated list of students for quick reference
+        $students = $this->studentService->getPaginated(10);
+        return view('admin.students.create', compact('students'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-         $input = $request->validate([
-        'stNo'     => ['required', 'unique:students,stNo'],
-        'name'     => ['required'],
-        'email'    => [
-            'required',
-            'email',
-            'unique:students,email',
-            'regex:/^[A-Za-z0-9._%+-]+@limu\.edu\.ly$/'
-        ],
-        'password' => ['required'],
-        'avg'      => ['nullable', 'numeric'],
-        'status'   => ['required', 'in:active,notActive,dismissed'],
-    ]);
+        // Allow creating with only a name: email and student_id are optional and
+        // will be generated server-side if missing.
+        $request->validate([
+            'name'=>'required|string|max:255',
+            'email'=>'nullable|email|unique:students,email',
+            // DB column is `stNo` (see migration), map form `student_id` to that
+            'student_id'=>'nullable|string|unique:students,stNo',
+        ]);
 
-    $input['password'] = Hash::make($input['password']);
+        $dto = new StudentDTO($request->name, $request->email, $request->student_id);
+        $this->studentService->create($dto);
 
-    Student::create($input);
-
-    return redirect()->route('student.index')->with('success', 'Student is added successfully');
+        return redirect()->route('admin.students.index')->with('success','Student created successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Student $student)
+    public function edit($id)
     {
-        return view('Admin.Student.edit', compact('student'));
+        try {
+            $student = $this->studentService->findById($id);
+            return view('admin.students.edit', compact('student'));
+        } catch (ModelNotFoundException $e) {
+            // Redirect to index with friendly message instead of showing a 404
+            return redirect()->route('admin.students.index')->with('error', 'Student not found.');
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Student $student)
+    public function update(Request $request, $id)
     {
-         return view('Admin.Student.edit', compact('student'));
+        $request->validate([
+            'name'=>'required|string|max:255',
+            'email'=>'required|email|unique:students,email,'.$id,
+            // map validation to `stNo` column
+            'student_id'=>'required|string|unique:students,stNo,'.$id,
+        ]);
+
+        $dto = new StudentDTO($request->name, $request->email, $request->student_id);
+        $this->studentService->update($id, $dto);
+
+        return redirect()->route('admin.students.index')->with('success','Student updated successfully.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Student $student)
+    public function destroy($id)
     {
-        $input = $request->validate([
-        'stNo'     => ['required', 'unique:students,stNo,'],
-        'name'     => ['required'],
-        'email'    => [
-            'required',
-            'email',
-            'unique:students,email,',
-            'regex:/^[A-Za-z0-9._%+-]+@limu\.edu\.ly$/'
-        ],
-        'password' => ['nullable'],
-        'avg'      => ['nullable', 'numeric'],
-        'status'   => ['required', 'in:active,notActive,dismissed'],
-    ]);
-
-    if (!empty($input['password'])) {
-        $input['password'] = Hash::make($input['password']);
-    } else {
-        unset($input['password']);
-    }
-
-    $student->update($input);
-
-    return redirect()->route('student.index')->with('success', 'Student is updated successfully');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Student $student)
-    {
-        $student->delete();
-        return redirect()->route('student.index')->with('success', 'Student is deleted successfully');
+        $this->studentService->delete($id);
+        return redirect()->route('admin.students.index')->with('success','Student deleted successfully.');
     }
 }
