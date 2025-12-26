@@ -1,16 +1,6 @@
-@extends('layouts.app')
-
-@section('content')
+<x-layout title="Create Department">
 
 <h2>Create Department</h2>
-
-@if ($errors->any())
-    <ul style="color:red;">
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-@endif
 
 <form action="{{ route('admin.departments.store') }}" method="POST">
     @csrf
@@ -25,4 +15,4 @@
     <a href="{{ route('admin.departments.index') }}">Cancel</a>
 </form>
 
-@endsection
+</x-layout>

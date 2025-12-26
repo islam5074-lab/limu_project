@@ -1,28 +1,42 @@
-@extends('layouts.app')
+<x-layout title="Professors">
 
-@section('content')
+<a href="{{ route('admin.professors.create') }}" class="btn btn-primary mb-3">➕ Add Professor</a>
 
-<h1>Professors</h1>
+@if($professors->isEmpty())
+    <div class="alert alert-info">No professors found.</div>
+@else
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($professors as $professor)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $professor->name }}</td>
+                        <td>{{ $professor->email }}</td>
+                        <td>{{ $professor->department->name ?? $professor->department->symbol ?? '' }}</td>
+                        <td class="text-end">
+                            <a href="{{ route('admin.professors.edit', $professor) }}" class="btn btn-sm btn-warning">Edit</a>
 
-<a href="/professors/create" class="btn btn-primary mb-3">➕ Add Professor</a>
+                            <form action="{{ route('admin.professors.destroy', $professor) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-danger" onclick="return confirm('Delete this professor?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+@endif
 
-@foreach($professors as $professor)
-<div class="card mb-3 p-3">
-    <p><strong>Name:</strong> {{ $professor->name }}</p>
-    <p><strong>Email:</strong> {{ $professor->email }}</p>
-    <p><strong>Department:</strong> {{ $professor->department }}</p>
-
-    <a href="/professors/{{ $professor->id }}/edit" class="btn btn-warning btn-sm">Edit</a>
-
-    <form action="/professors/{{ $professor->id }}" method="POST" style="display:inline;">
-        @csrf
-        @method('DELETE')
-        <button class="btn btn-danger btn-sm"
-            onclick="return confirm('Delete this professor?')">
-            Delete
-        </button>
-    </form>
-</div>
-@endforeach
-
-@endsection
+</x-layout>

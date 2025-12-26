@@ -1,24 +1,7 @@
-@extends('layouts.app')
+<x-layout title="Create Student">
 
-@section('content')
-<div class="max-w-lg mx-auto bg-white shadow p-6 rounded">
-<h2 class="text-xl font-bold mb-4">Create New Student</h2>
-
-@if ($errors->any())
-<div class="bg-red-100 p-3 mb-4">
-<ul class="list-disc pl-5">
-@foreach ($errors->all() as $error)
-<li class="text-red-700">{{ $error }}</li>
-@endforeach
-</ul>
-</div>
-@endif
-
-</div>
-
-<!-- Reformatted form: table layout -->
 <div class="max-w-2xl mx-auto bg-white shadow p-6 rounded mt-6">
-<h3 class="text-lg font-semibold mb-3">Add Student </h3>
+<h3 class="text-lg font-semibold mb-3">Add Student</h3>
 <form action="{{ route('admin.students.store') }}" method="POST">
 	@csrf
 	<table class="w-full">
@@ -42,9 +25,8 @@
 			</td>
 		</tr>
 	</table>
-	
+    
 </form>
 </div>
 
-
-@endsection
+</x-layout>

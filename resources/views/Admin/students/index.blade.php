@@ -1,15 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
-<h1 class="text-2xl font-bold mb-4">Students List</h1>
-
-@if(session('success'))
-<div class="bg-green-200 p-2 mb-4">{{ session('success') }}</div>
-@endif
-
-@if(session('error'))
-<div class="bg-red-200 p-2 mb-4">{{ session('error') }}</div>
-@endif
+<x-layout title="Students">
 
 <a href="{{ route('admin.students.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block">Add New Student</a>
 
@@ -44,7 +33,7 @@
 </table>
 
 <script>
-	// Attach confirmation to delete buttons: show student ID and name
+	// Attach confirmation to delete buttons: show student No. and name
 	document.addEventListener('DOMContentLoaded', function () {
 		document.querySelectorAll('.delete-btn').forEach(function (btn) {
 			btn.addEventListener('click', function (e) {
@@ -52,7 +41,6 @@
 				var name = btn.getAttribute('data-name');
 				var message = 'Are you sure you want to delete student #' + id + ' - ' + name + '? This action cannot be undone.';
 				if (confirm(message)) {
-					// submit the surrounding form
 					var form = btn.closest('form');
 					if (form) form.submit();
 				}
@@ -60,4 +48,5 @@
 		});
 	});
 </script>
-@endsection
+
+</x-layout>

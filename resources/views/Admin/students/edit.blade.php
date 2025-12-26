@@ -1,18 +1,7 @@
-@extends('layouts.app')
+<x-layout title="Edit Student">
 
-@section('content')
 <div class="max-w-lg mx-auto bg-white shadow p-6 rounded">
 <h2 class="text-xl font-bold mb-4">Edit Student</h2>
-
-@if ($errors->any())
-<div class="bg-red-100 p-3 mb-4">
-<ul class="list-disc pl-5">
-@foreach ($errors->all() as $error)
-<li class="text-red-700">{{ $error }}</li>
-@endforeach
-</ul>
-</div>
-@endif
 
 <form action="{{ route('admin.students.update', $student->id) }}" method="POST">
 @csrf
@@ -39,4 +28,5 @@
 </div>
 </form>
 </div>
-@endsection
+
+</x-layout>

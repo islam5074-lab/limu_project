@@ -1,0 +1,9 @@
+<x-layout title="Create Enrollment">
+
+<h2>Create Enrollment</h2>
+
+<p>Enrollment creation interface not implemented yet.</p>
+
+<a href="{{ route('admin.enrollments.index') }}">⬅ Back to Enrollments</a>
+
+</x-layout>

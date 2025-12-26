@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-layout title="Courses">
 
 <style>
     h1 {
@@ -58,7 +56,7 @@
 
 <h1>Courses</h1>
 
-<a href="/courses/create" class="add-btn">➕ Add Course</a>
+<a href="{{ route('admin.courses.create') }}" class="add-btn">➕ Add Course</a>
 
 @foreach($courses as $course)
 <div class="course-card">
@@ -76,19 +74,16 @@
     </div>
 
     <div class="actions">
-        <a href="/courses/{{ $course->id }}/edit" class="edit-btn">✏️ Edit</a>
+        <a href="{{ route('admin.courses.edit', $course) }}" class="edit-btn">✏️ Edit</a>
 
-        <form action="/courses/{{ $course->id }}" method="POST" style="display:inline;">
+        <form action="{{ route('admin.courses.destroy', $course) }}" method="POST" style="display:inline;">
             @csrf
             @method('DELETE')
 
-            <button type="submit"
-            onclick="return confirm('Are you sure?')">
-            ❌ Delete
-            </button>
+            <button type="submit" onclick="return confirm('Are you sure?')">❌ Delete</button>
         </form>
-        
+
     </div>
 @endforeach
 
-@endsection
+</x-layout>

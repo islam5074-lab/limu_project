@@ -45,7 +45,7 @@ class professorController extends Controller
 
         Professor::create($input);
 
-        return redirect()->route('professor.index')->with('success', 'Professor is added successfully');
+        return redirect()->route('admin.professors.index')->with('success', 'Professor is added successfully');
     }
 
     /**
@@ -86,7 +86,7 @@ class professorController extends Controller
 
         $professor->update($input);
 
-        return redirect()->route('professor.index')->with('success', 'Professor is updated successfully');
+        return redirect()->route('admin.professors.index')->with('success', 'Professor is updated successfully');
     }
 
     /**
@@ -95,7 +95,7 @@ class professorController extends Controller
     public function destroy(Professor $professor)
     {
         $professor->delete();
-        return redirect()->route('professor.index')->with('success', 'Professor is deleted successfully');
+        return redirect()->route('admin.professors.index')->with('success', 'Professor is deleted successfully');
     }
 }
 

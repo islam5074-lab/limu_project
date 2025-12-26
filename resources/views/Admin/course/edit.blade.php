@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<x-layout title="Edit Course">
 
 <style>
     .edit-card {
@@ -34,24 +32,23 @@
     <h2>Edit Course</h2>
 
     <!-- IMPORTANT: action فيه ID -->
-    <form method="POST" action="/courses/{{ $course->id }}">
+    <form method="POST" action="{{ route('admin.courses.update', $course) }}">
         @csrf
         @method('PUT')
         
         <label>Course Name</label>
-        <input type="text" name="name" value="{{ $course->name }}" required>
+        <input type="text" name="name" value="{{ old('name', $course->name) }}" required>
 
         <label>Course Symbol</label>
-        <input type="text" name="symbol" value="{{ $course->symbol }}" required>
+        <input type="text" name="symbol" value="{{ old('symbol', $course->symbol) }}" required>
 
         <label>Course Unit</label>
-        <input type="number" name="unit" value="{{ $course->unit }}" required>
+        <input type="number" name="unit" value="{{ old('unit', $course->unit) }}" required>
 
         <button type="submit">Update Course</button>
     </form>
-
     <br>
-    <a href="/courses">⬅ Back to Courses</a>
+    <a href="{{ route('admin.courses.index') }}">⬅ Back to Courses</a>
 </div>
 
-@endsection
+</x-layout>

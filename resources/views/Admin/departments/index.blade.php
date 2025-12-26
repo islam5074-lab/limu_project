@@ -1,16 +1,8 @@
-@extends('layouts.app')
-
-@section('content')
+<x-layout title="Departments">
 
 <h2>Departments List</h2>
 
-@if(session('success'))
-    <p style="color: green;">{{ session('success') }}</p>
-@endif
-
-<a href="{{ route('admin.departments.create') }}">
-    Add New Department
-</a>
+<a href="{{ route('admin.departments.create') }}">Add New Department</a>
 
 <table border="1" cellpadding="10" cellspacing="0" style="margin-top: 10px;">
     <thead>
@@ -44,7 +36,7 @@
                 </td>
             </tr>
         @endforeach
-    </tbody>
-</table>
+            </tbody>
+        </table>
 
-@endsection
+        </x-layout>
