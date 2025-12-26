@@ -76,5 +76,22 @@ Route::post('/adminLogin', [authController::class,'adminCheckLogin'])->name('adm
 
 
 Route::get('/courses', [CourseController::class, 'index']);
-Route::get('/professors', [ProfessorController::class, 'index']);
+Route::get('/courses/create', [CourseController::class, 'create']);
+Route::post('/courses', [CourseController::class, 'store']);
 
+Route::get('/courses/{course}/edit', [CourseController::class, 'edit']);
+Route::put('/courses/{course}', [CourseController::class, 'update']);
+
+Route::delete('/courses/{course}', [CourseController::class, 'destroy']);
+
+
+
+
+Route::get('/professors', [ProfessorController::class, 'index']);
+Route::get('/professors/create', [ProfessorController::class, 'create']);
+Route::post('/professors', [ProfessorController::class, 'store']);
+
+Route::get('/professors/{professor}/edit', [ProfessorController::class, 'edit']);
+Route::put('/professors/{professor}', [ProfessorController::class, 'update']);
+
+Route::delete('/professors/{professor}', [ProfessorController::class, 'destroy']);
