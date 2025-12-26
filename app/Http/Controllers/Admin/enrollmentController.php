@@ -17,7 +17,7 @@ class enrollmentController extends Controller
     public function index()
     {
         $enrollments = Enrollment::with(['professor','course','student'])->get();
-        return view('Admin.enrollments.index', compact('enrollments'));
+        return view('admin.enrollments.index', compact('enrollments'));
     }
 
     /**
@@ -28,7 +28,7 @@ class enrollmentController extends Controller
         $students=Student::all();
         $courses=Course::all();
         $professors=Professor::all();
-        return view('Admin.enrollments.create',compact(['courses','professors','students']));
+        return view('admin.enrollments.create',compact(['courses','professors','students']));
     }
 
     /**
@@ -54,7 +54,7 @@ class enrollmentController extends Controller
      */
     public function show(Enrollment $enrollment)
     {
-    return view('Admin.enrollments.details',compact('enrollment'));
+    return view('admin.enrollments.details',compact('enrollment'));
     }
 
     /**
@@ -65,7 +65,7 @@ class enrollmentController extends Controller
         $students=Student::all();
         $courses=Course::all();
         $professors=Professor::all();
-        return view('Admin.enrollments.edit',compact(['enrollment','courses','professors','students']));
+        return view('admin.enrollments.edit',compact(['enrollment','courses','professors','students']));
     }
 
     /**

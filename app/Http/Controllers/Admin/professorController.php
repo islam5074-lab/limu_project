@@ -16,7 +16,7 @@ class professorController extends Controller
     public function index()
     {
         $professors = Professor::with('department')->get();
-        return view('Admin.Professor.index', compact('professors'));
+        return view('admin.professors.index', compact('professors'));
     }
 
     /**
@@ -25,7 +25,7 @@ class professorController extends Controller
     public function create()
     {
         $departments=Department::all();
-        return view('Admin.Professor.create',compact('departments'));
+        return view('admin.professors.create',compact('departments'));
     }
 
     /**
@@ -53,7 +53,7 @@ class professorController extends Controller
      */
     public function show(Professor $professor)
     {
-        return view('Admin.Professor.details', compact('professor'));
+        return view('admin.professors.details', compact('professor'));
     }
 
     /**
@@ -62,7 +62,7 @@ class professorController extends Controller
     public function edit(Professor $professor)
     {
        $departments=Department::all();
-        return view('Admin.Professor.edit', compact(['professor','departments']));
+        return view('admin.professors.edit', compact(['professor','departments']));
     }
 
     /**

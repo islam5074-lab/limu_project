@@ -17,6 +17,6 @@ class dashboardcontroller extends Controller
         $courses=Course::count();
         $professors=Professor::count();
         $enrollment=Enrollment::count();
-        return view('Admin.Dashboard.index',compact(['courses','professors','students','enrollment']));
+        return view('admin.dashboard.index',compact(['courses','professors','students','enrollment']));
     }
 }

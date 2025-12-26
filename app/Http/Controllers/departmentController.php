@@ -20,13 +20,13 @@ class departmentController extends Controller
     public function index()
     {
         $departments = $this->departmentService->getAll();
-        return view('Admin.departments.index', compact('departments'));
+        return view('admin.departments.index', compact('departments'));
     }
 
     // صفحة الإنشاء
     public function create()
     {
-        return view('Admin.departments.create');
+        return view('admin.departments.create');
     }
 
     // تخزين قسم جديد
