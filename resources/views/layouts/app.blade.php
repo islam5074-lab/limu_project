@@ -28,6 +28,7 @@
             }
             .site-header .container { display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto;padding:0 16px;}
             .site-header a{ color:#fff; text-decoration:none; margin-right:12px }
+            .site-header .header-logo { width:84px; height:84px; object-fit:contain; border-radius:8px; background: rgba(255,255,255,0.85); padding:6px; display:inline-block; }
             @media (max-width:767px){
                 .site-header { min-height: 120px; padding: 16px 0 }
                 .site-header .container { flex-direction:column; align-items:flex-start; gap:8px }
@@ -76,6 +77,7 @@
         <header class="site-header">
             <div class="container">
                 <div style="display:flex;align-items:center;gap:12px;">
+                    <a href="{{ route('home.index') }}"><img src="{{ asset('images/university-header.png') }}" alt="University" class="header-logo"></a>
                     <a href="{{ route('home.index') }}" style="font-weight:700;font-size:18px;color:#fff"> Portal limu</a>
                     <nav style="display:flex;gap:10px;align-items:center">
                         <a href="{{ route('home.index') }}">Home</a>
