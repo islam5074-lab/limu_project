@@ -1,4 +1,6 @@
-<x-layout title="Edit Professor">
+@extends('layouts.app')
+
+@section('content')
 
 <form method="POST" action="{{ route('admin.professors.update', $professor) }}">
     @csrf
@@ -32,4 +34,4 @@
     <button class="btn btn-success">Update</button>
 </form>
 
-</x-layout>
+@endsection

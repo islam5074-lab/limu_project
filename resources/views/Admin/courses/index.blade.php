@@ -1,4 +1,6 @@
-<x-layout title="Courses">
+@extends('layouts.app')
+
+@section('content')
 
 <h1>Courses</h1>
 
@@ -37,4 +39,4 @@
     <div>No courses yet.</div>
 @endif
 
-</x-layout>
+@endsection

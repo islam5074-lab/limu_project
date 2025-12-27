@@ -27,3 +27,4 @@ class Student extends Model
         $this->attributes['stNo'] = $value;
     }
 }
+

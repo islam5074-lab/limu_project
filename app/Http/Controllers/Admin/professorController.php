@@ -33,6 +33,7 @@ class professorController extends Controller
      */
     public function store(Request $request)
     {
+        
         $input = $request->validate([
             'name'     => ['required'],
             'email'    => ['required', 'email', 'unique:professors,email'],

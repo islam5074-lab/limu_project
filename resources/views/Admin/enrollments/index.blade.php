@@ -1,4 +1,6 @@
-<x-layout title="Enrollments">
+@extends('layouts.app')
+
+@section('content')
 
 <h2>Enrollments</h2>
 
@@ -6,4 +8,4 @@
 
 <a href="{{ route('admin.enrollments.create') }}" class="btn btn-primary mt-3">➕ Add Enrollment</a>
 
-</x-layout>
+@endsection

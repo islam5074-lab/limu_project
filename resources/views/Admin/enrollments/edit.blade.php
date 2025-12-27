@@ -1,4 +1,6 @@
-<x-layout title="Edit Enrollment">
+@extends('layouts.app')
+
+@section('content')
 
 <h2>Edit Enrollment</h2>
 
@@ -6,4 +8,4 @@
 
 <a href="{{ route('admin.enrollments.index') }}">⬅ Back to Enrollments</a>
 
-</x-layout>
+@endsection

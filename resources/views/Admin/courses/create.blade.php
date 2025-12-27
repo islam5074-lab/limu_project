@@ -1,4 +1,6 @@
-<x-layout title="Add Course">
+@extends('layouts.app')
+
+@section('content')
 
 <h1>Add New Course</h1>
 
@@ -27,4 +29,4 @@
 
 <a href="{{ route('admin.courses.index') }}">⬅ Back to Courses</a>
 
-</x-layout>
+@endsection

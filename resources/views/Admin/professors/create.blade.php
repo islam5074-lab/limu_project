@@ -1,7 +1,19 @@
-<x-layout title="Add Professor">
+@extends('layouts.app')
+
+@section('content')
 
 <form method="POST" action="{{ route('admin.professors.store') }}">
     @csrf
+
+    @if($errors->any())
+        <div class="alert alert-danger">
+            <ul class="mb-0">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
     <div class="mb-3">
         <label>Name</label>
@@ -28,7 +40,7 @@
         <input type="password" name="password" class="form-control" required>
     </div>
 
-    <button class="btn btn-success">Save</button>
+    <button type="submit" class="btn btn-success">Save</button>
 </form>
 
-</x-layout>
+@endsection
