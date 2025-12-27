@@ -16,23 +16,14 @@
                 flex-direction: column;
             }
 
-            /* header with university image background */
+            /* header */
             .site-header {
-                /* local image for reliability */
-                background: linear-gradient(rgba(0,0,0,0.38), rgba(0,0,0,0.38)), url('{{ asset("images/university-header.png") }}') center/cover no-repeat;
+                background: #2c3e50;
                 color: #fff;
-                padding: 24px 0;
-                min-height: 160px;
-                display: flex;
-                align-items: center;
+                padding: 12px 0;
             }
             .site-header .container { display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto;padding:0 16px;}
             .site-header a{ color:#fff; text-decoration:none; margin-right:12px }
-            .site-header .header-logo { width:84px; height:84px; object-fit:contain; border-radius:8px; background: rgba(255,255,255,0.85); padding:6px; display:inline-block; }
-            @media (max-width:767px){
-                .site-header { min-height: 120px; padding: 16px 0 }
-                .site-header .container { flex-direction:column; align-items:flex-start; gap:8px }
-            }
 
             /* layout */
             /* Main layout should expand to fill available vertical space */
@@ -63,7 +54,20 @@
                 background: #fff;
                 border-radius:6px;
                 box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+                position: relative; /* needed for background element */
+                overflow: hidden;
             }
+
+            /* blurred background behind the page content */
+            .content .content-bg {
+                position: absolute;
+                inset: 0;
+                background: center/cover no-repeat url('{{ asset("images/content-bg.png") }}');
+                filter: blur(8px) brightness(0.6);
+                transform: scale(1.06);
+                z-index: 0;
+            }
+            .content .content-inner { position: relative; z-index: 1 }
 
             /* footer */
             /* Use auto margin to pin footer to the bottom when content is short */
@@ -77,7 +81,6 @@
         <header class="site-header">
             <div class="container">
                 <div style="display:flex;align-items:center;gap:12px;">
-                    <a href="{{ route('home.index') }}"><img src="{{ asset('images/university-header.png') }}" alt="University" class="header-logo"></a>
                     <a href="{{ route('home.index') }}" style="font-weight:700;font-size:18px;color:#fff"> Portal limu</a>
                     <nav style="display:flex;gap:10px;align-items:center">
                         <a href="{{ route('home.index') }}">Home</a>
@@ -103,7 +106,10 @@
 
             <!-- Main Content -->
             <main class="content">
-                @yield('content')
+                <div class="content-bg" aria-hidden="true"></div>
+                <div class="content-inner">
+                    @yield('content')
+                </div>
             </main>
         </div>
 
