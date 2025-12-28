@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Models\Course;
-use App\Models\Enrollment;
-use App\Models\Professor;
+use App\Http\Controllers\Controller; // << هذا لازم
 use App\Models\Student;
-use Illuminate\Http\Request;
+use App\Models\Course;
+use App\Models\Professor;
+use App\Models\Department;
 
-class dashboardcontroller extends Controller
+class DashboardController extends Controller
 {
     public function index()
     {
-        $students=Student::count();
-        $courses=Course::count();
-        $professors=Professor::count();
-        $enrollment=Enrollment::count();
-        return view('admin.dashboard.index',compact(['courses','professors','students','enrollment']));
+        return view('Admin.dashboard', [
+            'studentsCount'    => Student::count(),
+            'coursesCount'     => Course::count(),
+            'professorsCount'  => Professor::count(),
+            'departmentsCount' => Department::count(),
+        ]);
     }
 }

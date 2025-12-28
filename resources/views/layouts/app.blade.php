@@ -3,11 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>University Portal</title>
+<!-- داخل ملف layouts/app.blade.php في قسم <head> -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
 
     <style>
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: Arial, sans-serif;git add .
+
             color: #222;
             background: linear-gradient(rgba(255,255,255,0.04), rgba(255,255,255,0.04));
             min-height: 100vh;
@@ -50,8 +53,8 @@
             left: 50%;
             top: 50%;
             transform: translate(-50%, -50%);
-            width: 64px;
-            height: 64px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             object-fit: cover;
             background: #ffffff;
@@ -140,6 +143,19 @@
             box-shadow: 0 1px 3px rgba(0,0,0,0.04);
         }
 
+        .admin-area {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .admin-area img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
         .site-footer {
             background:#fff;
             border-top:1px solid #e9ecef;
@@ -169,6 +185,7 @@
 <!-- Sidebar -->
 <aside class="sidebar" id="sidebar">
     <a href="/">Home</a>
+     <a href="{{ route('admin.dashboard') }}">Dashboard</a>
     <a href="{{ route('admin.courses.index') }}">Courses</a>
     <a href="{{ route('admin.professors.index') }}">Professors</a>
     <a href="{{ route('admin.students.index') }}">Students</a>
@@ -195,11 +212,18 @@
 
         <img src="{{ asset('images/header-center.png') }}" alt="Header" class="header-center-img">
 
-        <div>
-            <a href="{{ route('admin.dashboard') }}"
-               style="background:rgba(255,255,255,0.12);padding:6px 10px;border-radius:4px;">
-                Admin
-            </a>
+        <div class="admin-area">
+            @auth('admin')
+                <img src="{{ asset('images/imagelog.png') }}" alt="Avatar">
+                <form action="{{ route('admin.logout') }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit" style="background:transparent;color:#fff;border:none;cursor:pointer;">Logout</button>
+                </form>
+            @else
+                <a href="{{ route('admin.login') }}" style="background:rgba(255,255,255,0.12);padding:6px 10px;border-radius:4px;">
+                    Login
+                </a>
+            @endauth
         </div>
     </div>
 </header>

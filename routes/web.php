@@ -18,12 +18,22 @@ Route::get('/contact', [homeController::class,'contact'])->name('home.contact');
 // صفحة تسجيل الدخول للادمن
 Route::get('/adminLogin', [authController::class,'adminLogin'])->name('admin.login');
 Route::post('/adminLogin', [authController::class,'adminCheckLogin'])->name('admin.adminCheckLogin');
+Route::post('/admin/logout', function () {
+    Auth::guard('admin')->logout();
+    return redirect()->route('admin.login');
+})->name('admin.logout');
+
 
 // الصفحات الخاصة بالادمن
 Route::prefix('admin')->group(function () {
 
     // Dashboard
-    Route::get('dashboard', [dashboardcontroller::class,'index'])->name('admin.dashboard');
+   Route::get('admin/dashboard', [DashboardController::class,'index'])
+    ->name('admin.dashboard')
+    ->middleware('auth:admin');
+
+
+   
 
     // Students
     Route::resource('students', studentController::class)->names([
@@ -101,5 +111,3 @@ Route::get('/professors/{professor}/edit', [ProfessorController::class, 'edit'])
 Route::put('/professors/{professor}', [ProfessorController::class, 'update']);
 
 Route::delete('/professors/{professor}', [ProfessorController::class, 'destroy']);
-
-

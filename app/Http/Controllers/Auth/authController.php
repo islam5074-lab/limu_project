@@ -10,25 +10,34 @@ use Illuminate\Support\Facades\Hash;
 
 class authController extends Controller
 {
-
-public function adminLogin()
+    public function adminLogin()
     {
-        return view('Auth.admin');
+        return view('Auth.admin'); // صفحة تسجيل الدخول
     }
 
     public function adminCheckLogin(Request $request)
     {
-        $credentials=$request->validate([
-            'email'=>['required','email'],
-            'password'=>['required']
+        $credentials = $request->validate([
+            'email' => ['required','email'],
+            'password' => ['required']
         ]);
-        $admin=Admin::where('email',$credentials['email'])->first();
+
+        $admin = Admin::where('email',$credentials['email'])->first();
+
         if($admin && Hash::check($credentials['password'],$admin->password))
         {
-             Auth::guard('admin')->login($admin);
-             return redirect()->route('dashboard')->with('suceess','Hello'.$admin->name);
+            Auth::guard('admin')->login($admin);
+            return redirect()->route('admin.dashboard')->with('success','Hello '.$admin->name);
         }
-        return redirect()->back()->with('error','invalid email or password');
+
+        return redirect()->back()->with('error','Invalid email or password');
     }
 
+    public function logout(Request $request)
+    {
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect()->route('admin.login')->with('success','Logged out successfully.');
+    }
 }
