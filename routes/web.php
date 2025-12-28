@@ -101,3 +101,5 @@ Route::get('/professors/{professor}/edit', [ProfessorController::class, 'edit'])
 Route::put('/professors/{professor}', [ProfessorController::class, 'update']);
 
 Route::delete('/professors/{professor}', [ProfessorController::class, 'destroy']);
+
+

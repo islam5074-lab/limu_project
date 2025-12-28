@@ -1,96 +1,77 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Course;
 use App\Models\Enrollment;
-use App\Models\Professor;
 use App\Models\Student;
+use App\Models\Course;
+use App\Models\Professor;
+use App\Services\EnrollmentService;
+use App\DTO\EnrollmentDTO;
 use Illuminate\Http\Request;
 
-class enrollmentController extends Controller
+class EnrollmentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    protected EnrollmentService $service;
+
+    public function __construct(EnrollmentService $service)
+    {
+        $this->service = $service;
+    }
+
     public function index()
     {
-        $enrollments = Enrollment::with(['professor','course','student'])->get();
-        return view('admin.enrollments.index', compact('enrollments'));
+        $enrollments = Enrollment::all();
+        $students = Student::pluck('name', 'id');
+        $courses = Course::pluck('name', 'id');
+        $professors = Professor::pluck('name', 'id');
+
+        return view('admin.enrollments.index', compact('enrollments', 'students', 'courses', 'professors'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        $students=Student::all();
-        $courses=Course::all();
-        $professors=Professor::all();
-        return view('admin.enrollments.create',compact(['courses','professors','students']));
+        $students = Student::pluck('name', 'id');
+        $courses = Course::pluck('name', 'id');
+        $professors = Professor::pluck('name', 'id');
+
+        return view('admin.enrollments.create', compact('students', 'courses', 'professors'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        $input = $request->validate([
-            'studentId'   => ['required', 'exists:students,id'],
-            'courseId'    => ['required', 'exists:courses,id'],
-            'professorId' => ['required', 'exists:professors,id'],
-            'mark'        => ['nullable', 'numeric', 'between:0,100'],
+        $validated = $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'course_id' => 'required|exists:courses,id',
+            'professor_id' => 'required|exists:professors,id',
         ]);
 
-        Enrollment::create($input);
+        $data = new EnrollmentDTO($validated);
+        $this->service->create($data);
 
-        return redirect()->route('admin.enrollments.index')
-                 ->with('success', 'Enrollment added successfully');
+        return redirect()->route('admin.enrollments.index')->with('success', 'تم الحفظ بنجاح');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Enrollment $enrollment)
-    {
-    return view('admin.enrollments.details',compact('enrollment'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Enrollment $enrollment)
     {
-        $students=Student::all();
-        $courses=Course::all();
-        $professors=Professor::all();
-        return view('admin.enrollments.edit',compact(['enrollment','courses','professors','students']));
+        $students = Student::pluck('name', 'id');
+        $courses = Course::pluck('name', 'id');
+        $professors = Professor::pluck('name', 'id');
+
+        return view('admin.enrollments.edit', compact('enrollment', 'students', 'courses', 'professors'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Enrollment $enrollment)
     {
-          $input = $request->validate([
-            'studentId'   => ['required', 'exists:students,id'],
-            'courseId'    => ['required', 'exists:courses,id'],
-            'professorId' => ['required', 'exists:professors,id'],
-            'mark'        => ['nullable', 'numeric', 'between:0,100'],
+        $validated = $request->validate([
+            'student_id' => 'required|exists:students,id',
+            'course_id' => 'required|exists:courses,id',
+            'professor_id' => 'required|exists:professors,id',
         ]);
 
-        $enrollment->update($input);
+        $data = new EnrollmentDTO($validated);
+        $this->service->update($enrollment, $data);
 
-        return redirect()->route('admin.enrollments.index')
-                 ->with('success', 'Enrollment updated successfully');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('admin.enrollments.index')->with('success', 'تم التحديث بنجاح');
     }
 }

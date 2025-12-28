@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
-            $table->id();
-            $table->string('name')->unique();
-            $table->string('symbol')->unique();
-            $table->integer('unit');
-            $table->timestamps();
+        Schema::table('enrollments', function (Blueprint $table) {
+            //
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        Schema::table('enrollments', function (Blueprint $table) {
+            //
+        });
     }
 };

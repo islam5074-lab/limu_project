@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
-            $table->integer('studentId');
-            $table->integer('courseId');
-            $table->integer('professorId');
-            $table->double('mark');
+            $table->integer('student_Id');
+            $table->integer('course_Id');
+            $table->integer('professor_Id');
+            $table->double('mark')->nullable();
+            
             $table->timestamps();
         });
     }

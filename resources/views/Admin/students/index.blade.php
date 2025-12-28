@@ -1,57 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
+<h2>Students</h2>
 
-<a href="{{ route('admin.students.create') }}"
-   class="bg-blue-600 text-white px-4 py-2 rounded mb-4 inline-block">
-   Add New Student
-</a>
+@if(session('success'))
+    <div style="color: green;">{{ session('success') }}</div>
+@endif
 
-<table class="table-auto border-collapse border border-gray-300 w-full">
-	<thead>
-	<tr>
-		<th class="border px-2 py-1">No.</th>
-		<th class="border px-2 py-1">Name</th>
-		<th class="border px-2 py-1">Email</th>
-		<th class="border px-2 py-1">Student ID</th>
-		<th class="border px-2 py-1">Actions</th>
-	</tr>
-	</thead>
-	<tbody>
-	@foreach($students as $student)
-		<tr>
-			<td class="border px-2 py-1">{{ $loop->iteration }}</td>
-			<td class="border px-2 py-1">{{ $student->name }}</td>
-			<td class="border px-2 py-1">{{ $student->email }}</td>
-			<td class="border px-2 py-1">{{ $student->stNo }}</td>
-			<td class="border px-2 py-1 space-x-1">
+<a href="{{ route('admin.students.create') }}" style="margin-bottom: 12px; display:inline-block;">New Student</a>
 
-				<a href="{{ route('admin.students.show', $student->id) }}"
-				   class="bg-blue-500 text-white px-2 py-1 rounded">
-				   Details
-				</a>
-
-				<a href="{{ route('admin.students.edit', $student->id) }}"
-				   class="bg-yellow-500 text-white px-2 py-1 rounded">
-				   Edit
-				</a>
-
-				<form action="{{ route('admin.students.destroy', $student->id) }}"
-					  method="POST"
-					  class="inline-block">
-					@csrf
-					@method('DELETE')
-					<button type="submit"
-							class="bg-red-600 text-white px-2 py-1 rounded"
-							onclick="return confirm('Are you sure?')">
-						Delete
-					</button>
-				</form>
-
-			</td>
-		</tr>
-	@endforeach
-	</tbody>
+<table border="1" cellpadding="10" style="width:100%; border-collapse: collapse;">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Student ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    @php $i = 1; @endphp
+    @forelse($students as $student)
+        <tr>
+            <td>{{ $i++ }}</td>
+            <td>{{ $student->student_id }}</td>
+            <td>{{ $student->name }}</td>
+            <td>{{ $student->email }}</td>
+            <td>
+                <a href="{{ route('admin.students.show', $student->id) }}">Details</a> |
+                <a href="{{ route('admin.students.edit', $student->id) }}">Edit</a> |
+                <form action="{{ route('admin.students.destroy', $student->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this student?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" style="background:none;border:none;color:red;cursor:pointer;">Delete</button>
+                </form>
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="5">No students found</td>
+        </tr>
+    @endforelse
+    </tbody>
 </table>
-
 @endsection
