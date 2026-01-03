@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +12,16 @@ return new class extends Migration
     {
         Schema::create('enrollments', function (Blueprint $table) {
             $table->id();
-            $table->integer('student_Id');
-            $table->integer('course_Id');
-            $table->integer('professor_Id');
+            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('professor_id');
             $table->double('mark')->nullable();
-            
             $table->timestamps();
+
+            // Foreign keys
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
+            $table->foreign('professor_id')->references('id')->on('professors')->onDelete('cascade');
         });
     }
 

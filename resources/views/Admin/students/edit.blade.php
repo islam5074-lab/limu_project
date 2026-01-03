@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <div class="max-w-lg mx-auto bg-white shadow p-6 rounded">
 	<h2 class="text-xl font-bold mb-4">Edit Student</h2>
 
@@ -25,8 +25,8 @@
 		</div>
 
 		<div class="flex gap-3">
-			<button type="submit" class="bg-green-600 text-white px-4 py-2 rounded">Update Student</button>
-			<a href="{{ route('admin.students.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded">Cancel</a>
+			<button type="submit" class="btn btn-success">Update Student</button>
+			<a href="{{ route('admin.students.index') }}" class="btn btn-secondary">Cancel</a>
 		</div>
 	</form>
 </div>

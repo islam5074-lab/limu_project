@@ -1,36 +1,47 @@
 @extends('layouts.app')
 
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 <h2>Edit Enrollment</h2>
 
-<form method="POST" action="{{ route('admin.enrollments.update', $enrollment->id) }}">
+@if($errors->any())
+    <ul>
+        @foreach($errors->all() as $error)
+            <li style="color:red;">{{ $error }}</li>
+        @endforeach
+    </ul>
+@endif
+
+<form method="POST" action="{{ route('admin.enrollments.store') }}">
     @csrf
-    @method('PUT')
 
     <label>Student:</label>
-    <select name="student_id">
+    <select name="student_id" required>
+        <option value="">Select student</option>
         @foreach($students as $id => $name)
-            <option value="{{ $id }}" @if($id == $enrollment->student_id) selected @endif>{{ $name }}</option>
+            <option value="{{ $id }}">{{ $name }}</option>
         @endforeach
     </select>
 
     <label>Course:</label>
-    <select name="course_id">
-        @foreach($courses as $id => $name)
-            <option value="{{ $id }}" @if($id == $enrollment->course_id) selected @endif>{{ $name }}</option>
+    <select name="course_id" required>
+        <option value="">Select course</option>
+        @foreach($courses as $id => $title)
+            <option value="{{ $id }}">{{ $title }}</option>
         @endforeach
     </select>
 
     <label>Professor:</label>
-    <select name="professor_id">
+    <select name="professor_id" required>
+        <option value="">Select professor</option>
         @foreach($professors as $id => $name)
-            <option value="{{ $id }}" @if($id == $enrollment->professor_id) selected @endif>{{ $name }}</option>
+            <option value="{{ $id }}">{{ $name }}</option>
         @endforeach
     </select>
 
-    <label>Mark:</label>
-    <input type="number" name="mark" step="0.01" value="{{ $enrollment->mark }}">
+    
 
-    <button type="submit">Update</button>
+    <button class="btn btn-success">Update</button>
+    <a href="{{ route('admin.enrollments.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 @endsection

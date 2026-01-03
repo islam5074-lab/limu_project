@@ -1,0 +1,81 @@
+/* admin.css */
+
+/* Body and background */
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f7fa;
+    color: #333;
+    margin: 0;
+}
+
+/* Table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+table th, table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eaeaea;
+}
+
+table th {
+    background: #2c3e50;
+    color: #fff;
+}
+
+table tr:hover {
+    background: #f1f1f1;
+}
+
+/* Buttons */
+.btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.btn-add { background: #2ecc71; }
+.btn-add:hover { background: #27ae60; }
+
+.btn-edit { background: #3498db; }
+.btn-edit:hover { background: #2980b9; }
+
+.btn-delete { background: #e74c3c; }
+.btn-delete:hover { background: #c0392b; }
+
+/* Form inputs */
+input, select {
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+/* Card container */
+.card {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+}
+
+/* Page titles */
+.page-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: #2c3e50;
+}

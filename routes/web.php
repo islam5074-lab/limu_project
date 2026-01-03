@@ -111,3 +111,43 @@ Route::get('/professors/{professor}/edit', [ProfessorController::class, 'edit'])
 Route::put('/professors/{professor}', [ProfessorController::class, 'update']);
 
 Route::delete('/professors/{professor}', [ProfessorController::class, 'destroy']);
+
+Route::get('/admin/enrollments/create', [EnrollmentController::class, 'create'])->name('admin.enrollments.create');
+Route::post('/admin/enrollments', [EnrollmentController::class, 'store'])->name('admin.enrollments.store');
+Route::get('/admin/enrollments/{enrollment}/edit', [EnrollmentController::class, 'edit'])->name('admin.enrollments.edit');
+
+Route::get('/debug-enrollment', function() {
+    try {
+        $s = \App\Models\Student::first();
+        $c = \App\Models\Course::first();
+        $p = \App\Models\Professor::first();
+        
+        if(!$s || !$c || !$p) return response()->json(['error' => "Missing master data. Need at least 1 Student, Course, and Professor."]);
+
+        // Test 1: Normal Create
+        $e1 = \App\Models\Enrollment::create([
+            'student_id' => $s->id,
+            'course_id' => $c->id,
+            'professor_id' => $p->id,
+            'mark' => 10
+        ]);
+
+        // Test 2: Force Save (Manual Assignment)
+        $e2 = new \App\Models\Enrollment();
+        $e2->student_id = $s->id;
+        $e2->course_id = $c->id;
+        $e2->professor_id = $p->id;
+        $e2->mark = 20;
+        $e2->save();
+
+        return response()->json([
+            'student_data' => $s,
+            'normal_create' => $e1,
+            'normal_create_fresh' => $e1->fresh(),
+            'force_save' => $e2,
+            'force_save_fresh' => $e2->fresh(),
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['exception' => $e->getMessage(), 'trace' => $e->getTraceAsString()]);
+    }
+});

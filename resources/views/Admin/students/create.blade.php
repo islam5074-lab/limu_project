@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 <h2>Create New Student</h2>
 
 {{-- عرض الأخطاء --}}
@@ -17,6 +19,7 @@
 <form method="POST" action="{{ route('admin.students.store') }}">
     @csrf
 
+   
     <div style="margin-bottom: 12px;">
         <label for="student_id">Student ID:</label><br>
         <input type="text" id="student_id" name="student_id" value="{{ old('student_id') }}" required>
@@ -30,10 +33,11 @@
     <div style="margin-bottom: 12px;">
         <label for="email">Email:</label><br>
         <input type="email" id="email" name="email" value="{{ old('email') }}" required>
-    </div>
 
-    <button type="submit">Save</button>
+    
+     <button type="submit" class="btn btn-success">Save</button>
+
+    <a href="{{ route('admin.students.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 
-<a href="{{ route('admin.students.index') }}" style="display:inline-block; margin-top:12px;">Back to Students</a>
 @endsection

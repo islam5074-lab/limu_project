@@ -8,22 +8,20 @@ class Enrollment extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'student_id',
-        'course_id',
-        'professor_id',
-        'mark',
-    ];
+    protected $fillable = ['student_Id', 'course_Id', 'professor_Id', 'mark'];
 
-    public function student() {
-        return $this->belongsTo(Student::class);
+    public function student()
+    {
+        return $this->belongsTo(Student::class, 'student_Id');
     }
 
-    public function course() {
-        return $this->belongsTo(Course::class);
+    public function course()
+    {
+        return $this->belongsTo(Course::class, 'course_Id');
     }
 
-    public function professor() {
-        return $this->belongsTo(Professor::class);
+    public function professor()
+    {
+        return $this->belongsTo(Professor::class, 'professor_Id');
     }
 }

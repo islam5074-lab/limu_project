@@ -19,16 +19,15 @@ class EnrollmentController extends Controller
         $this->service = $service;
     }
 
+    // List all enrollments
+    
     public function index()
-    {
-        $enrollments = Enrollment::all();
-        $students = Student::pluck('name', 'id');
-        $courses = Course::pluck('name', 'id');
-        $professors = Professor::pluck('name', 'id');
-
-        return view('admin.enrollments.index', compact('enrollments', 'students', 'courses', 'professors'));
+    {  
+        $enrollments = Enrollment::with(['student', 'course', 'professor'])->get();
+        return view('admin.enrollments.index', compact('enrollments'));
     }
 
+    // Show create form
     public function create()
     {
         $students = Student::pluck('name', 'id');
@@ -38,6 +37,7 @@ class EnrollmentController extends Controller
         return view('admin.enrollments.create', compact('students', 'courses', 'professors'));
     }
 
+    // Store new enrollment
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -46,12 +46,18 @@ class EnrollmentController extends Controller
             'professor_id' => 'required|exists:professors,id',
         ]);
 
-        $data = new EnrollmentDTO($validated);
-        $this->service->create($data);
+        // Direct create to ensure data persistence
+        Enrollment::create([
+            'student_Id' => $validated['student_id'],
+            'course_Id' => $validated['course_id'],
+            'professor_Id' => $validated['professor_id'],
+            'mark' => 0, // Default mark
+        ]);
 
         return redirect()->route('admin.enrollments.index')->with('success', 'تم الحفظ بنجاح');
     }
 
+    // Show edit form
     public function edit(Enrollment $enrollment)
     {
         $students = Student::pluck('name', 'id');
@@ -61,6 +67,7 @@ class EnrollmentController extends Controller
         return view('admin.enrollments.edit', compact('enrollment', 'students', 'courses', 'professors'));
     }
 
+    // Update enrollment
     public function update(Request $request, Enrollment $enrollment)
     {
         $validated = $request->validate([
@@ -69,9 +76,23 @@ class EnrollmentController extends Controller
             'professor_id' => 'required|exists:professors,id',
         ]);
 
-        $data = new EnrollmentDTO($validated);
-        $this->service->update($enrollment, $data);
+        $enrollment->update([
+            'student_Id' => $validated['student_id'],
+            'course_Id' => $validated['course_id'],
+            'professor_Id' => $validated['professor_id'],
+            // Keep existing mark or update if field exists
+            'mark' => $request->mark ?? $enrollment->mark, 
+        ]);
 
         return redirect()->route('admin.enrollments.index')->with('success', 'تم التحديث بنجاح');
+    }
+
+    // Delete enrollment
+    public function destroy(Enrollment $enrollment)
+    {
+        $enrollment->delete();
+
+        return redirect()->route('admin.enrollments.index')
+                         ->with('success', 'تم الحذف بنجاح');
     }
 }

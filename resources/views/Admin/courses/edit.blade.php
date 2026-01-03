@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
 <h1>Edit Course</h1>
 
@@ -23,11 +24,10 @@
         <input type="number" name="unit" value="{{ old('unit', $course->unit) }}" required>
     </div>
 
-    <button type="submit">Update Course</button>
+    <button type="submit" class="btn btn-success">Update Course</button>
+     <a href="{{ route('admin.courses.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
 
-<br>
-
-<a href="{{ route('admin.courses.index') }}">⬅ Back to Courses</a>
+<br />
 
 @endsection

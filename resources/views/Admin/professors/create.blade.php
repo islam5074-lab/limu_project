@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
 
 <form method="POST" action="{{ route('admin.professors.store') }}">
     @csrf
@@ -41,6 +43,8 @@
     </div>
 
     <button type="submit" class="btn btn-success">Save</button>
+    <a href="{{ route('admin.professors.index') }}" class="btn btn-secondary">Cancel</a>
 </form>
+
 
 @endsection
